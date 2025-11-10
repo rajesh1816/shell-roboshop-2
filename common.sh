@@ -77,6 +77,21 @@ python_setup(){
     VALIDATE $? "installing dependencies"
 }
 
+go_setup(){
+    dnf install golang -y &>>$LOG_FILE
+    VALIDATE $? "installing golang"
+
+    go mod init dispatch &>>$LOG_FILE
+    VALIDATE $? "starting a project"
+
+    go get &>>$LOG_FILE
+    VALIDATE $? "adding dependencies"
+
+
+    go build &>>$LOG_FILE
+    VALIDATE $? "building the application"
+}
+
 
 
 nodejs_setup() {
