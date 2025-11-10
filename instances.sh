@@ -2,7 +2,7 @@
 
 AMI_ID="ami-09c813fb71547fc4f"
 SG_ID="sg-0256c6a54027858fd" # replace with your SG ID
-INSTANCES=("mongodb" "catalogue" "frontend")
+INSTANCES=("$@")
 ZONE_ID="Z00035852NN6D25PW7BUM" # replace with your ZONE ID
 DOMAIN_NAME="rajeshit.space" # replace with your domain
 
