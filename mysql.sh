@@ -1,42 +1,8 @@
 #!/bin/bash
-
-USERID=$(id -u)
-R="\e[31m"
-G="\e[32m"
-Y="\e[33m"
-N="\e[0m"
-LOGS_FOLDER="/var/log/roboshop-logs"
-SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
-LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
-SCRIPT_DIR=$PWD
-SCRIPT_START=$(date +%s)
-
-
-mkdir -p $LOGS_FOLDER
-echo "Script started executing at: $(date)" | tee -a $LOG_FILE
-
-if [ $USERID -ne 0 ]
-then
-    echo -e "$R ERROR:: Please run this script with root access $N" | tee -a $LOG_FILE
-    exit 1 #give other than 0 upto 127
-else
-    echo -e "$G You are running with root access $N" | tee -a $LOG_FILE
-fi
-
-
-echo "Enter Mysql Root password:"
-read -s SQL_ROOT_PASSWORD
-
-# validate functions takes input as exit status, what command they tried to install
-VALIDATE(){
-    if [ $1 -eq 0 ]
-    then
-        echo -e " $2 is ... $G SUCCESS $N" | tee -a $LOG_FILE
-    else
-        echo -e " $2 is ... $R FAILURE $N" | tee -a $LOG_FILE
-        exit 1
-    fi
-}
+appname=mysql
+source ./common.sh
+check_root
+check_roboshop_user
 
 
 dnf install mysql-server -y &>>$LOG_FILE
@@ -50,6 +16,4 @@ mysql_secure_installation --set-root-pass $SQL_ROOT_PASSWORD
 VALIDATE $? "setting up sql root password"
 
 
-SCRIPT_END=$(date +%s)
-TOTAL_TIME=$(($SCRIPT_END-$SCRIPT_START))
-echo -e "Total time taken for installation: $G $TOTAL_TIME sec $N"
+print_time
