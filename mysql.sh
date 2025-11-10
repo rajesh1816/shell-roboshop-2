@@ -4,6 +4,9 @@ source ./common.sh
 check_root
 check_roboshop_user
 
+echo "Enter mysql root password"
+read -s SQL_ROOT_PASSWORD
+
 
 dnf install mysql-server -y &>>$LOG_FILE
 VALIDATE $? "installing mysql"
