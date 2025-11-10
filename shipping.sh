@@ -1,7 +1,7 @@
 #!/bin/bash
 
 appname=shipping
-
+source ./common.sh
 check_root
 check_roboshop_user
 app_setup
