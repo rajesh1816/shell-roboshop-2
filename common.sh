@@ -69,6 +69,15 @@ app_setup() {
     VALIDATE $? "$appname the zip file"
 }
 
+python_setup(){
+    dnf install python3 gcc python3-devel -y &>>$LOG_FILE
+    VALIDATE $? "installing python3"
+
+    pip3 install -r requirements.txt &>>$LOG_FILE
+    VALIDATE $? "installing dependencies"
+}
+
+
 
 nodejs_setup() {
     dnf module disable nodejs -y &>>$LOG_FILE
@@ -83,7 +92,6 @@ nodejs_setup() {
     npm install &>>$LOG_FILE
     VALIDATE $? "installing dependencies"
 }
-
 
 systemd_setup(){
     cp $SCRIPT_DIR/$appname.service /etc/systemd/system/$appname.service &>>$LOG_FILE
